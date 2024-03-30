@@ -1,4 +1,6 @@
-def detect_objects(net, image):
+from setup import net, class_names
+
+def detect_objects(image):
     height, width, _ = image.image.shape
     blob = cv2.dnn.blobFromImage(image.image, 1/255, (416, 416), swapRB=True, crop=False)
     net.setInput(blob)
@@ -7,7 +9,7 @@ def detect_objects(net, image):
     outputs = net.forward(output_layers)
     return outputs
 
-def process_detections(outputs, image, class_names):
+def process_detections(outputs, image):
     height, width, _ = image.image.shape
     bounding_boxes = []
 
