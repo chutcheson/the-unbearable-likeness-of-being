@@ -1,3 +1,4 @@
+import random
 import cv2
 
 class BoundingBox:
@@ -44,4 +45,12 @@ class BoxedImage(Image):
         for box in self.get_bounding_boxes(class_name):
             resized_superimpose_image = cv2.resize(superimpose_image.image, (box.w, box.h))
             image_copy[box.y:box.y+box.h, box.x:box.x+box.w, :] = resized_superimpose_image
+        return Image(image_copy)
+
+    def superimpose_random_box(self, superimpose_image):
+        image_copy = self.image.copy()
+        if len(self.bounding_boxes) > 0:
+            random_box = random.choice(self.bounding_boxes)
+            resized_superimpose_image = cv2.resize(superimpose_image.image, (random_box.w, random_box.h))
+            image_copy[random_box.y:random_box.y+random_box.h, random_box.x:random_box.x+random_box.w, :] = resized_superimpose_image
         return Image(image_copy)
